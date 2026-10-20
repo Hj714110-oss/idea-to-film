@@ -1,0 +1,14 @@
+node_modules/
+clips/
+frames/
+models/
+*.pth
+*.onnx
+*.mp4
+*.m4a
+*.wav
+*.mp3
+audio.js
+audio.json
+__pycache__/
+.DS_Store
