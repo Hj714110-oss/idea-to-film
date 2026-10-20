@@ -1,5 +1,8 @@
 # idea-to-film
 
+<p align="center"><img src="assets/hero.jpg" alt="正在输入… TYPING… — title frame" width="100%"></p>
+
+
 **One line of idea + one music track → a finished, beat-synced cinematic film (MP4).**
 An agent skill for Claude (works with any agent that reads `SKILL.md`) plus a small deterministic canvas engine.
 
@@ -22,6 +25,25 @@ Give it an idea — *"how lighthouses work"*, *"a launch film for our goggles"*,
 
 Motion vocabulary comes from a 178-term film-relevant subset of the **motion-lexicon** (MIT), including 46 compound recipes with code — see *Appendix A* in `SKILL.md`.
 
+## Made with it: 《正在输入… TYPING…》
+
+A 3:18 love story between a person and an AI, told through the *typing…* indicator. Every chapter is painted in a different classic style; the code layer adds the chat UI, subtitles, particles and beat sync.
+一部 3 分 18 秒的人与 AI 的爱情短片：每一章换一种经典画风，代码层负责聊天界面、字幕、粒子与卡点。
+
+<p align="center"><img src="assets/hook.gif" alt="The opening hook: 2 a.m., typing and deleting, then sending 在吗？" width="600"></p>
+<p align="center"><sub>The 0.2 s hook: 2 a.m., typing and deleting, then sending 「在吗？」 (shown at 2× speed)</sub></p>
+
+| | | |
+|:-:|:-:|:-:|
+| <img src="assets/still_01.jpg" alt="Cold open"> | <img src="assets/still_02.jpg" alt="01 Strangers, ukiyo-e"> | <img src="assets/still_03.jpg" alt="02 Remembered, candlelit letters"> |
+| Cold open · photographic | 01 初遇 · ukiyo-e rain | 02 被记住 · Victorian letters |
+| <img src="assets/still_04.jpg" alt="03 Long nights, Qixi ink painting"> | <img src="assets/still_05.jpg" alt="04 Need, 1940s diner"> | <img src="assets/still_06.jpg" alt="05 Everyday, gouache kitchen"> |
+| 03 长夜 · Qixi ink & silk | 04 离不开 · 1940s diner | 05 日常 · picture-book gouache |
+| <img src="assets/still_07.jpg" alt="07 Its memory, particle constellation"> | <img src="assets/still_08.jpg" alt="08 Its mind, 3 a.m."> | <img src="assets/still_09.jpg" alt="Finale, sunrise"> |
+| 07 它的记忆 · particle constellation | 08 它的心 · 3 a.m., its point of view | Finale · 「在。」 |
+
+Pipeline for this film (Mode C): gpt-image-2 plates → 16:9 crop + Real-ESRGAN ×4 → MiniMax Hailuo / H3 image-to-video → this engine (slow-down + frame blending, overlay, beat sync) → MP4. Prompts and the full `scenes.js` are in [`examples/typing/`](examples/typing/).
+
 ## Repository layout
 
 ```
@@ -34,6 +56,7 @@ scripts/
   render.js / stills.js  Playwright renderers (full film / review stills)
   audio.py               beat grid + structure report, writes audio.js
   upscale.py             Real-ESRGAN x4 for start frames (weights not bundled)
+assets/                  README images (frames from the TYPING film)
 examples/typing/         full worked example: 《正在输入… TYPING…》 (concept, video prompts, scenes.js)
 ```
 
