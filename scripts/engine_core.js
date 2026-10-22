@@ -45,7 +45,7 @@ const POOLD = '01010110∅#';
 function scramble(str, t, t0, per = .3, pool = POOL, rate = 18) { let o = ''; for (let i = 0; i < str.length; i++) { const lock = t0 + i * per; if (str[i] === ' ' || t >= lock) o += str[i]; else if (t < t0 - .2) o += ' '; else o += pool[Math.floor(hash(i * 131 + Math.floor(t * rate)) * pool.length)]; } return o; }
 function rr2(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
 const rr = (x, y, w, h, r) => rr2(ctx, x, y, w, h, r);
-function T(str, x, y, font, color, a = 1, align = 'left', ls = 0) { if (a < .005) return; ctx.globalAlpha = a; ctx.font = font; ctx.fillStyle = color; ctx.textAlign = align; ctx.letterSpacing = ls + 'px'; ctx.fillText(str, x, y); ctx.letterSpacing = '0px'; ctx.globalAlpha = 1; }
+function T(str, x, y, font, color, a = 1, align = 'left', ls = 0) { if (a < .005) return; const pa = ctx.globalAlpha; ctx.globalAlpha = a; ctx.font = font; ctx.fillStyle = color; ctx.textAlign = align; ctx.letterSpacing = ls + 'px'; ctx.fillText(str, x, y); ctx.letterSpacing = '0px'; ctx.globalAlpha = pa; }
 function parseRich(s) { const out = []; let col = null; for (let i = 0; i < s.length; i++) { if (s[i] === '<') { const e = s.indexOf('>', i), tag = s.slice(i + 1, e); col = tag[0] === '/' ? null : tag; i = e; continue; } out.push([s[i], col]); } return out; }
 /* per-character reveal of a rich string, centred or left */
 function drawRich(str, x, y, font, t, t0, a = 1, per = .045, align = 'center', ls = 4, base = WHITE, pool = null) {

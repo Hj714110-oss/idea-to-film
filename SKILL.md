@@ -19,6 +19,7 @@ Proven on:
 - 《焦虑》 (story-driven knowledge film)
 - 《它记得我》 (fast-cut, chat UI)
 - 《正在输入… TYPING…》 (AI plates → image-to-video → code layer; scenes in `examples/typing/`)
+- 《总说「你说得对」的女孩》 (an ensemble fable; v1 stills-only on an original synthesised score, v2 image-to-video cut to a re-arranged borrowed beat; `examples/girl/`)
 
 **Contract.** Input: an idea, plus optionally music, material (photos/footage/copy), a reference video. Output: a 1080p30 MP4 and a source zip.
 
@@ -35,6 +36,10 @@ Decide everything — style, colour, lens, effects, story, wording — and state
 
 Never preach; take the subject seriously on its own terms (a romance with an AI is treated as a real romance). Facts are seasoning: light, sourced, credits in the silent tail.
 
+**Get the point right before the craft.** Say the film's thesis back to yourself in one sentence and check it against what the user said. In 《女孩》 the first cut read as "the top model isn't capable enough"; the user's real point was "she is strong, but treats every question as a project to deliver — the fun open-source crowd and Claude show her smart can be light". The fix was in the script (the project-deck hook, one line that states it, a tagline at the end), not in the effects.
+
+**Speak the audience's idiom.** For a Chinese audience write the Chinese first, in living local language (大厂黑话 like 抓手/闭环/颗粒度/赋能, 夜市, 宵夜, 性价比之王, 嘴替), then the English under it — never translate English jokes word for word.
+
 ## 0. Task list (always create it)
 1. Research the idea (if it touches facts) and read any material.
 2. Run `audio.py` on the music.
@@ -48,11 +53,12 @@ Never preach; take the subject seriously on its own terms (a romance with an AI 
 | Dial | Rule |
 |---|---|
 | **Pacing** | From the track tempo. **< 120 BPM → chapter grammar**: 8-bar chapters (~17 s), 1.1 s cross-fades + light leaks, 2.5–3.5 min. **≥ 120 BPM → fast grammar**: mixed 4/8-bar scenes, single-frame smash cuts, ~1:50–2:00. Both: hook within 0.2 s, a micro-event every 1–2 beats, big hits = flash + burst + shake. |
-| **Visual mode** | **B** when the user gave material (product photos, footage, copy): cutouts, clips, particles. **C** (default for stories, people, places, eras, emotions, when the user has an image model and an image-to-video model, e.g. gpt-image-2 + MiniMax Hailuo / Kling / Veo / Seedance): one AI-generated art style per chapter, animated by image-to-video, code layer on top. **A** for abstract, data or concept ideas, or when they want it with no generation: pure particles and code. Mix freely (e.g. a C film with an A particle chapter for the inner-world beat). |
+| **Visual mode** | **C-stills** when the user hands you finished paintings but no clips yet: upscale the plates to 3072×2048 and move a code camera inside them (`plate()` in `kit.js`), so the film exists today; offer the image-to-video pass as the upgrade (it looks markedly better). **B** when the user gave material (product photos, footage, copy): cutouts, clips, particles. **C** (default for stories, people, places, eras, emotions, when the user has an image model and an image-to-video model, e.g. gpt-image-2 + MiniMax Hailuo / Kling / Veo / Seedance): one AI-generated art style per chapter, animated by image-to-video, code layer on top. **A** for abstract, data or concept ideas, or when they want it with no generation: pure particles and code. Mix freely (e.g. a C film with an A particle chapter for the inner-world beat). |
 | **Art styles (C)** | A different painting tradition per chapter that carries its meaning (eras: cave pigment, Persian miniature, ink wash, Bauhaus poster, ukiyo-e; feelings: woodblock rain, Victorian candlelight, Qixi ink, 1940s American realism, picture-book gouache, surreal library). Open and close on the same photographic shot. |
 | **Look** | See the style table below. |
 | **Voices** | One narrator (warm serif subs). Add a second voice when the point of view switches (light sans + cyan glow, mono EN, cyan chapter number and light leaks). |
 | **Language** | Chinese subtitles + English line under each, unless told otherwise. |
+| **Ensemble** | More than two characters → a coloured speaker tag above each subtitle (`window.TL.speakers`, `[t0, t1, zh, en, 'KEY']`) and a camera that cuts to whoever speaks (`spkKeys`). |
 
 Style systems that worked:
 | Look | Background | Particles | Text |
@@ -87,6 +93,7 @@ Rules:
   - **2D → 3D reveal**: flat UI sampled into particles, older layers stacked in z, camera yaws to reveal, dollies through on a hit.
   - **z-space word field** with depth of field (`zText`).
   - **Turning point**: speed change, warm → cold, positions quantised to a grid, a black band behind a two-line question.
+- **Dialogue budget**: reading time ≈ 0.8 s + 0.11 s per Chinese character (`scripts/timeline.py` sizes scenes from a `script.json`). A full short story runs 5+ minutes this way; on a 2:30–3:00 track keep only the lines that carry the turn and let diegetic overlays (toasts, stamps, counters, cards) tell the jokes.
 - Subtitles: one sentence per window: 8-bar scene `[0.6, 8.0]` / `[8.9, 16.4]`, 4-bar `[0.4, 7.0]`. Keyword tags: `<r>` rose, `<a>` cyan, `<p>` peach, `<g>` gold.
 
 ## 3. Music
@@ -101,7 +108,12 @@ Rules:
 - Reference timings from two tracks we cut to (the music itself is not included):
   - **Example track A**: 112.35 BPM, B0 0.076, bar 2.126 s; big entry bar 8 (17.1 s); quiet 77–94 s; dip 158–160 s; second climax bar 83 (177.4 s); 198.18 s.
   - **Example track B**: 129 BPM, bar 1.875 s; hits bar 8 / 40; accents 29.68 / 44.68 / 58.51 s; music ends ~113 s.
-- Mention licensing once when music comes from someone else's video.
+- Mention licensing once when music comes from someone else's video. "[Free] … type beat" uploads usually allow non-commercial use with a producer credit: put the beat's full name in the credits.
+- **Getting the track**: you cannot download from music sites. iPhone users can't find app downloads in Files: ask for a screen recording (Control Center → long-press record, microphone off) and take the audio with `ffmpeg -i rec.mov -vn -ac 2 -ar 44100 src.wav`.
+- **Re-arranging a borrowed beat** to fit the story (`scripts/arrange.py`): map its sections first with band energy per bar (kick 35–130 Hz, hats > 5 kHz, mids) — a run of 1s in the kick row is a drumless intro/break. Then repeat or drop whole 8-bar phrases on bar lines (12 ms crossfades), e.g. repeat the last 8 bars of the break before the final drop so the drums fall away for the emotional beat and slam back on the payoff. Re-run `audio.py … --grid B0 BP` with the source grid.
+- **Half-time trap/hip-hop**: librosa reports ~160 BPM for an 80 BPM groove; use its 4-beat bar (1.49 s) as the cut unit — it feels right.
+- **Kick-reactive frames**: `audio.py` writes a 30 fps `kick` envelope; the compositor punches the frame (+1.6 %) and splits colour on strong kicks automatically.
+- **No track at all and the user wants it finished now**: compose one in numpy (bells, plucks, pads, strings, flute, drums, a convolution reverb; one section per scene; the motif as two notes). `examples/girl/score_v1.py` is a complete 92 BPM score written from a timeline.
 
 ## 4. Production by mode
 **A — particles.** Everything in code: particle shapes per chapter, the morph between scenes, overlays.
@@ -146,11 +158,13 @@ Rules:
    - object orientation written in for hand-object shots ("the phone screen faces her; we see its back")
    - file names = plate names
    Publish the prompts file as an artifact when asked.
-6. **Review the clips** (6 frames per clip: `fps=6/DUR,scale=384:-1,tile=6x1`). Typical input: MiniMax H3 2560×1440 or Hailuo 2.3 1364×768 / 1080p, 24 fps, 10.125 s.
+6. **Review the clips** (6 frames per clip: `fps=6/DUR,scale=384:-1,tile=6x1`). First count decodable frames per clip (`ffprobe -count_frames … nb_read_frames`): zips from phones can truncate files (243 → 138 frames). Use the clean part slower rather than asking for a re-upload. Typical input: MiniMax H3 2560×1440 or Hailuo 2.3 1364×768 / 1080p, 24 fps, 10.125 s.
    - Use only the clean part: the diner's neon dots multiplied after ~5 s, so it played at rate .36.
    - Watch for physical errors (a phone held backwards).
    - Treat lucky shifts as story (amber → cyan became the POV switch).
 7. **Extract frames**: `ffmpeg -i c.mp4 -vf "scale=1920:1080:flags=lanczos,unsharp=5:5:0.4" -q:v 3 clips/NAME/%04d.jpg` (~40 MB per 10 s clip). Put frame counts in `FILM.clips`.
+
+**C-stills (plates without clips).** Crop nothing — keep the 3:2 plates at 3072×2048 in `plates/`, list them in `FILM.plates`, and use `plate(name, {start, plate, keys, subs})`: `keys` are `[t, cx, cy, viewW]` camera keys inside the painting, `sc.P2(t, u, v)` maps a painting point to the screen so overlays (a glowing window, a mascot's mood colour, ruler lines) stick to it. Grid the plates (10 % lines) once to read coordinates.
 
 **Reference videos the user sends:**
 - Identify the music by librosa chroma correlation with known tracks.
@@ -185,9 +199,12 @@ cp scenes.example.js scenes.js && python3 audio.py /path/music .
   - `chap: [num, title, smallLine]`, `voice: 'ai'` for the second voice, `src` (credits line), `rgb(t)` / `shake(t)` amounts
 - Local times; beats via `BPr(k)` (k beats after a bar-aligned start) or `bt(k)` (absolute).
 - `dustScene({seed, tints: WARM|COOL|TINT, br, sp})` gives the default drifting dust for footage scenes.
+- `kit.js` builders: `shot(name, {start, clip, c0, rate, hold, z0, dz, tin, tout, dir, blur(t), filt(t)})` for clips — `tin: 'whip'|'zoom'|'up'|'glitch'` are hard cuts on the bar (`sc.cut`), `'fade'` keeps the cross-fade + light leak; `plate(...)` for stills. Vary the cut type scene to scene; drums entering = zoom/up + flash, drums leaving = fade.
+- Layers: clip `[clip, s, alpha, zoom, ox, oy, blur, glitch, cssFilter]`; plate `['!name', cx, cy, viewW, alpha, blur, cssFilter]`.
+- Frame hooks (define on `window`): `LETTERBOX(t)` → 0..1 cinema bars (break sections, the card, the ending), `POST(t)` after grading, `TOP(t)` above subtitles (e.g. a black beat before the big hit). `window.CHAPCOL` sets the chapter-number colour.
 - Clip rate ≈ clip length / scene length (≈ .585 for 10 s over 17 s). Cut B-takes in mid-scene with `smooth((t-8.2)/.8)` alpha.
 
-**Overlay kit (in `engine_core.js`):**
+**Overlay kit (`engine_core.js` + `kit.js`):**
 - `drawChat(ctx, t, msgs, cx, top, bot, a, halfW, header)`: messages `{side:'me'|'ai', t, zh, en, ty (typing start), call:true, on, zhOn}`.
 - `drawBubble`, `typingBubble(x, y, a, t, scale, colour)`.
 - `typer(t, steps)` + `cursorOn(t)` for drafts typed and deleted; `avatar`.
@@ -195,6 +212,8 @@ cp scenes.example.js scenes.js && python3 audio.py /path/music .
 - `drawRich(str, x, y, font, t, t0, a, per, align, ls, base, pool)`: per-char reveal with coloured keywords and scramble.
 - `scramble`, `zText` (depth-of-field word in 3D), `clockStr`, `fmt`.
 - Banners, toasts, ledgers, counters, ink stroke reveals (clip-rect wipe + glowing nib), constellations, flying bezier bubbles: write them in `over` with `T`, `rr`, `proj`.
+- `kit.js`: `stamp` (comic slam with stroke + sub-line), `toast` (notification), `withCard`/`letterCard`/`zhCard` (paper with ink reveal, Chinese wrap), `ink`/`inkZh` (glowing-nib handwriting, optional tremble), `puff` (mascot blob with mood colours), `paperBurst`, `rising` sparkles, `rain` streaks, `bigGlyph` (one huge outlined character as a thought), `floorCounter` (beat-stepped counter), `glowAt`, `shade`.
+- Story props that worked: an answer delivered as a file card (`方案_v1.0.pptx · 19 页`) whose slides fly out one per beat and stack in depth, then the camera dives back to page 4; a word struck through and replaced (交付 → 答案); a volume bar sliding to zero on "the rest is just volume".
 - In `over`, `proj(x, y, z)` gives `PR.x/PR.y/PR.k`; 1 world unit = 256.5 px at dist 4; `WX/WY` convert screen ↔ world.
 - Map 2D UI onto a projected plane with `ctx.setTransform((X1-X0)/w,(Y1-Y0)/w,(X2-X0)/h,(Y2-Y0)/h,X0,Y0)` from three projected corners.
 
@@ -213,6 +232,7 @@ The engine is dark-mode additive; for a light film switch the LUT to `255*exp(-v
 - `node stills.js st t1 t2 ...` → tile with PIL → Read. Check every scene mid-point and boundary.
 - Render: `nohup node render.js 0 F1 p1.mp4 &` … on 2–3 workers; frames = round(dur·30). Poll with sleeps < 10 min; never `pgrep -f` your own pattern.
   - Footage films take ~0.7 s/frame/worker on 2 CPUs (3:18 ≈ 22 min with 3 workers); particle films ~0.3–0.4.
+- Grainy footage films need a higher CRF: crf 24–26 `-preset fast` (2:53 ≈ 220 MB at 24); crf 21 on a 5-minute film ran past 500 MB and 10 min of encoding — run the mux with `nohup`.
 - Join: `printf "file p1.mp4\nfile p2.mp4\n..." > cat.txt; ffmpeg -f concat -i cat.txt -i bgm_fade.m4a -map 0:v -map 1:a -c:v libx264 -crf 21 -pix_fmt yuv420p -c:a aac -b:a 224k -shortest -movflags +faststart OUT.mp4` (~300 MB for 3:18).
 - To fix one region after a full render, re-render only that worker's range and re-concat.
 - QA: grab frames at every boundary, hit, smash and dip **from the final file** and look at them.
@@ -229,6 +249,10 @@ The engine is dark-mode additive; for a light film switch the LUT to `255*exp(-v
 - Image-to-video errors: reversed objects, extra motif copies late in a clip, faces turning, hair changes. Use the clean part or ask for one reroll.
 - Don't state counts or claims you can't support; label correlational studies as correlation.
 - Sensitive themes: honest endings, no preaching, no dependency-fostering lines.
+- Scenes share one global scope with the engine: names like `PH`, `BB`, `WH`, `BR`, `N`, `D`, `Q` are taken (a clash shows as `Identifier … has already been declared` and `SC is not defined`). Prefix your constants.
+- `T()` restores the previous `globalAlpha`, so text inside a fading card fades with it.
+- Bright plates + additive flash wash out on big hits: dim that clip (`filt: brightness(.82)`) or tint the flash darker.
+- Additive glows sized from plate units explode on a close camera (viewW .3 → 2× scale): size them for the closest framing.
 
 ## 8. Hand-off
 - One line on what the film is and its length/size.
@@ -453,13 +477,17 @@ How to translate to film:
 ## Appendix B — bundled files (`scripts/`)
 | File | What it does |
 |---|---|
-| `audio.py` | Music → `audio.js` (beats, strengths, RMS), `bgm.m4a`, `bgm_fade.m4a`, and a grid report (tempo, bar, loudness per bar, big entries, accents, dips). |
-| `film.html` | The page the renderer opens: fonts + `audio.js` → `engine_core.js` → `scenes.js` → `engine_frame.js`. |
+| `audio.py` | Music → `audio.js` (beats, strengths, RMS, 30 fps kick envelope), `bgm.m4a`, `bgm_fade.m4a`, and a grid report (tempo, bar, loudness per bar, big entries, accents, dips). `--grid B0 BP` forces an exact grid. |
+| `arrange.py` | Re-arrange a beat on bar lines (`--seg 0-16,16-48,56-64,80-end`). |
+| `timeline.py` | `script.json` → `timeline.js`: scene bars and subtitle windows sized by reading speed, with speaker keys. |
+| `kit.js` | Shot builders (`shot`, `plate`, `kf`, `spkKeys`) and the overlay kit (stamps, toasts, paper + ink, mascot, rain, bursts, glyphs, counters). |
+| `film.html` | The page the renderer opens: fonts + `audio.js` → `engine_core.js` → `kit.js` → `scenes.js` → `engine_frame.js` (add `timeline.js` before `scenes.js` when you use it). |
 | `engine_core.js` | Utilities, beat grid, palette, text helpers, chat UI kit, camera/projection, particle buffers, scene helpers, splatting. |
-| `engine_frame.js` | Clip frame cache, subtitles, chapter labels, the per-frame compositor (footage, light leaks, particles, bloom, overlays, grain, flashes, smash frames, dips), `frameJPEG`, `ready`. |
+| `engine_frame.js` | Clip and plate layers, speaker-tagged subtitles, chapter labels, the per-frame compositor (footage, hard cuts + glitch slices, kick punch, light leaks, particles, bloom, letterbox, overlays, grain, flashes, smash frames, dips), `frameJPEG`, `ready`. |
 | `scenes.example.js` | A minimal two-scene film; copy to `scenes.js` and replace. |
 | `render.js` | `node render.js startFrame endFrame out.mp4` — renders a frame range to H.264 via ffmpeg. |
 | `stills.js` | `node stills.js outdir t1 t2 …` — JPEG stills for review. |
 | `upscale.py` | Real-ESRGAN ×4 without torch (download `realesr-general-x4v3.pth` into `models/`). |
 
 `examples/typing/` holds the scenes and video prompts of 《正在输入… TYPING…》 as a full worked example (plates, clips and music are not included).
+`examples/girl/` holds both versions of 《总说「你说得对」的女孩》: the stills-only cut with its script and synthesised score, and the image-to-video cut on a re-arranged beat, with its video prompts.

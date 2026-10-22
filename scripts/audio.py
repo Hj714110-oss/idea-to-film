@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
-"""python3 audio.py music.(mp4|m4a|wav) out_dir  -> out_dir/audio.js, bgm.m4a, bgm_fade.m4a, grid report"""
+"""python3 audio.py music.(mp4|m4a|wav|mov) out_dir [--grid B0 BP]  -> out_dir/audio.js, bgm.m4a, bgm_fade.m4a, grid report
+--grid forces an exact beat grid (e.g. after re-arranging a beat on bar lines, reuse the source grid).
+audio.js also carries `kick`: a 30 fps low-band onset envelope; engine_frame.js punches the frame and splits colour on it."""
 import sys, os, json, subprocess, numpy as np, librosa
 src, out = sys.argv[1], sys.argv[2]; os.makedirs(out, exist_ok=True)
+GRID = [float(v) for v in sys.argv[sys.argv.index('--grid') + 1:sys.argv.index('--grid') + 3]] if '--grid' in sys.argv else None
 wav = os.path.join(out, 'a.wav')
 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', src, '-ac', '1', '-ar', '22050', wav], check=True)
 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', src, '-vn', '-c:a', 'aac', '-b:a', '256k', os.path.join(out, 'bgm.m4a')], check=True)
@@ -10,7 +13,13 @@ tempo, b = librosa.beat.beat_track(y=y, sr=sr, tightness=200); bt = librosa.fram
 oenv = librosa.onset.onset_strength(y=y, sr=sr); bstr = [float(oenv[min(len(oenv) - 1, f)]) for f in b]
 m = max(bstr) or 1; bstr = [round(v / m, 3) for v in bstr]
 rms = librosa.feature.rms(y=y, hop_length=sr // 4)[0]; rms = (rms / (rms.max() or 1)).round(3).tolist()
-json.dump({'beats': [round(float(t), 4) for t in bt], 'bstr': bstr, 'dur': round(dur, 3), 'rms': rms}, open(os.path.join(out, 'audio.json'), 'w'))
+if GRID: bt = np.arange(GRID[0], dur, GRID[1]); bstr = [1] * len(bt)
+# kick envelope (30 fps): low band 35-130 Hz, onset, fast attack / quick decay
+S = np.abs(librosa.stft(y, n_fft=2048, hop_length=sr // 30)); fq = librosa.fft_frequencies(sr=sr, n_fft=2048)
+lo = np.sqrt((S[(fq > 35) & (fq < 130)] ** 2).sum(0)); lo /= (np.percentile(lo, 99.5) or 1)
+on = np.maximum(0, np.diff(lo, prepend=0)); kick = []; acc = 0
+for v in on: acc = max(acc * .72, min(1, v * 2.2)); kick.append(round(float(acc), 3))
+json.dump({'beats': [round(float(t), 4) for t in bt], 'bstr': bstr, 'dur': round(dur, 3), 'rms': rms, 'kick': kick}, open(os.path.join(out, 'audio.json'), 'w'))
 open(os.path.join(out, 'audio.js'), 'w').write('window.AUDIO=' + open(os.path.join(out, 'audio.json')).read() + ';')
 i = np.arange(len(bt)); BP, B0 = np.polyfit(i, bt, 1); bar = 4 * BP
 # music end (last time rms > 5% of max) and fade

@@ -17,7 +17,7 @@ Give it an idea — *"how lighthouses work"*, *"a launch film for our goggles"*,
 1. **Sets the dials itself** — length, pacing (TikTok-fast ↔ cinematic), palette, typography, lens and grain — and states them in one line instead of asking.
 2. **Writes a 12-beat story** with a 0.2 s hook, a recurring motif, two voices, a quiet chapter, a mirror ending and single-frame smash cuts.
 3. **Locks every cut to the music** (`scripts/audio.py` fits a beat grid and finds the big entries, the quiet stretch and the dips).
-4. **Picks a visual mode**
+4. **Picks a visual mode** (finished paintings but no clips yet? It moves a camera inside the stills first, and image-to-video is the upgrade)
    - **A — pure code:** particles, morphs, type, UI, all drawn in canvas.
    - **B — footage + code:** your clips under a code overlay.
    - **C — AI plates + image-to-video ("OPUS method"):** it writes the image prompts and motion prompts, you generate them with your models, then it crops, upscales, slows, blends and composites the overlay on top.
@@ -44,6 +44,28 @@ A 3:18 love story between a person and an AI, told through the *typing…* indic
 
 Pipeline for this film (Mode C): gpt-image-2 plates → 16:9 crop + Real-ESRGAN ×4 → MiniMax Hailuo / H3 image-to-video → this engine (slow-down + frame blending, overlay, beat sync) → MP4. Prompts and the full `scenes.js` are in [`examples/typing/`](examples/typing/).
 
+## Made with it: 《总说「你说得对」的女孩》
+
+An ensemble fable: GPT isn't short on smarts, she just treats every question like a project to deliver. 17 × 3 comes back as a 19-page deck, the answer buried on page 4. The open-source crowd at the night market and Claude show her that smart can be light. Image-to-video clips are cut on the bar lines of a re-arranged trap beat. The drums drop out while she writes her reply, and slam back when her wings open.
+一部群像寓言：GPT 不是不够聪明，而是把每个问题都当成要交付的项目。夜市里的开源模型们和 Claude 让她明白：聪明，也可以很轻。
+
+<p align="center"><img src="assets/girl/hero.jpg" alt="Title over the Leaderboard spire" width="100%"></p>
+<p align="center"><img src="assets/girl/hook.gif" alt="The hook: 17 × 3 = ? answered with a 19-page project deck" width="520"></p>
+<p align="center"><sub>The hook: "17 × 3 = ?" is answered with <code>项目交付方案_v1.0.pptx</code>. The slides fly out on the beat and the camera dives back to page 4 (2.2× speed).</sub></p>
+
+| | | |
+|:-:|:-:|:-:|
+| <img src="assets/girl/01_page4.jpg" alt="Page 4"> | <img src="assets/girl/02_deliver_answer.jpg" alt="交付 struck out, 答案 stamped"> | <img src="assets/girl/03_neon.jpg" alt="Neon floor"> |
+| 51, circled on page 4 | 交付 → 答案 | 霓虹层 · "是五十一！" |
+| <img src="assets/girl/04_night_market.jpg" alt="Night market"> | <img src="assets/girl/05_letter.jpg" alt="The letter"> | <img src="assets/girl/06_climb.jpg" alt="The climb"> |
+| 港口夜市 · the night market | 一封信 · the break, letterboxed | 上楼 · a floor counter on every beat |
+| <img src="assets/girl/07_card.jpg" alt="The card"> | <img src="assets/girl/08_wings.jpg" alt="Wings open"> | <img src="assets/girl/09_light.jpg" alt="Smart can be light"> |
+| The drums drop out · no disclaimer | The drums slam back | 聪明，也可以很轻 |
+
+Both versions are in [`examples/girl/`](examples/girl/):
+- **v1:** a stills-only cut with an original synthesised score.
+- **v2:** image-to-video clips on the re-arranged beat.
+
 ## Repository layout
 
 ```
@@ -52,12 +74,16 @@ scripts/
   engine_core.js         utils, beat grid, palette, chat-UI kit, camera, 30k-particle system, splat buffers
   engine_frame.js        frame compositor: footage layer, bloom, LUT tonemap, leaks, RGB split, grain, flashes, dips, smash frames
   film.html              page that loads engine + your scenes.js
+  kit.js                 shot builders (clips with bar-locked cut-ins, camera inside still plates) + overlay kit
   scenes.example.js      minimal scenes file to start from
   render.js / stills.js  Playwright renderers (full film / review stills)
-  audio.py               beat grid + structure report, writes audio.js
+  audio.py               beat grid + structure report + kick envelope, writes audio.js
+  arrange.py             re-arrange a beat on bar lines to fit the story
+  timeline.py            script.json -> scene bars + subtitle windows sized by reading speed
   upscale.py             Real-ESRGAN x4 for start frames (weights not bundled)
-assets/                  README images (frames from the TYPING film)
+assets/                  README images (frames from the two films)
 examples/typing/         full worked example: 《正在输入… TYPING…》 (concept, video prompts, scenes.js)
+examples/girl/           《总说「你说得对」的女孩》: stills-only v1 + image-to-video v2 (script, score, prompts, scenes)
 ```
 
 ## Install
@@ -105,6 +131,7 @@ node render.js                           # -> out.mp4
 ## Notes
 
 - Bring your own music and make sure you have the rights to it. No audio is shipped.
+- No track and you want it finished today? Have the agent compose one in code (see `examples/girl/score_v1.py`). Borrowing a beat instead? It can re-arrange it on bar lines with `scripts/arrange.py`.
 - Image-to-video models can flip objects (e.g. a phone held backwards). Write object orientation into the motion prompt and check hand–object shots frame by frame.
 - Rendering is deterministic (seeded RNG); the same scenes + audio give the same film.
 

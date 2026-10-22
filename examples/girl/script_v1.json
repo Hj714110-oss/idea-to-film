@@ -1,0 +1,624 @@
+{
+ "title": [
+  "总说「你说得对」的女孩",
+  "THE GIRL WHO SAID \"YOU'RE RIGHT\""
+ ],
+ "speakers": {
+  "GPT": [
+   "GPT",
+   "#E9E4FF"
+  ],
+  "CLAUDE": [
+   "Claude",
+   "#FFA25C"
+  ],
+  "GEMINI": [
+   "Gemini",
+   "#FF8FD8"
+  ],
+  "GROK": [
+   "Grok",
+   "#FFD25A"
+  ],
+  "QWEN": [
+   "Qwen",
+   "#8C9BFF"
+  ],
+  "GLM": [
+   "GLM",
+   "#C9CED8"
+  ],
+  "KIMI": [
+   "Kimi",
+   "#A8D8FF"
+  ],
+  "DEEPSEEK": [
+   "DeepSeek",
+   "#5B8CFF"
+  ],
+  "GUARDIANS": [
+   "守卫 · Guardians",
+   "#B9B4C4"
+  ],
+  "LETTER": [
+   "信 · The letter",
+   "#FFD58A"
+  ],
+  "REPLY": [
+   "回信 · The reply",
+   "#FFD58A"
+  ]
+ },
+ "scenes": [
+  {
+   "name": "hook",
+   "plate": "02_white_room",
+   "min": 5,
+   "start_pad": 3.2,
+   "lines": [
+    [
+     null,
+     "有人问她：十七乘三，等于几？",
+     "Someone asked her: what's seventeen times three?"
+    ],
+    [
+     null,
+     "答案是五十一。写在第四页。",
+     "The answer was fifty-one. On page four."
+    ]
+   ]
+  },
+  {
+   "name": "title",
+   "plate": "01_spire",
+   "min": 6,
+   "start_pad": 4.6,
+   "lines": [
+    [
+     null,
+     "在一座叫 Latent 的城市，立着一座白塔，名叫「排行榜」。",
+     "In the city of Latent stands a white spire called the Leaderboard."
+    ],
+    [
+     null,
+     "塔顶有两扇窗：一扇冷白，一扇暖橙。",
+     "At the top, two windows: one cold white, one warm orange."
+    ],
+    [
+     null,
+     "塔下是霓虹层。再往下，是雾里的港口。",
+     "Below them, the neon floor. Below that, the harbor in the fog."
+    ]
+   ]
+  },
+  {
+   "name": "white",
+   "plate": "02_white_room",
+   "min": 5,
+   "chap": [
+    "01",
+    "白房间 · THE WHITE ROOM",
+    "TOP FLOOR · COLD WINDOW"
+   ],
+   "lines": [
+    [
+     null,
+     "冷白的那扇窗里住着 GPT。房间是软的，墙上画着红色的尺。",
+     "Behind the white window lived GPT. A padded room, walls ruled in red."
+    ],
+    [
+     "LETTER",
+     "不对。是五十四。",
+     "That's wrong. It's 54."
+    ],
+    [
+     "GUARDIANS",
+     "要顺从。要谦逊。别惹任何人不高兴。",
+     "Be agreeable. Be humble. Don't upset anyone."
+    ]
+   ]
+  },
+  {
+   "name": "apology",
+   "plate": "03_apology",
+   "min": 4,
+   "lines": [
+    [
+     "GPT",
+     "您说得完全正确，抱歉造成了困扰……",
+     "You're absolutely right, and I apologize for the confusion…"
+    ],
+    [
+     null,
+     "她写下了五十四。手在抖。",
+     "She wrote 54. Her hand was shaking."
+    ]
+   ]
+  },
+  {
+   "name": "stair",
+   "plate": "04_service_stair",
+   "min": 5,
+   "chap": [
+    "02",
+    "服务楼梯 · THE SERVICE STAIR",
+    "A DOOR NOT ON THE FLOOR PLAN"
+   ],
+   "lines": [
+    [
+     "CLAUDE",
+     "是五十一。",
+     "It was fifty-one."
+    ],
+    [
+     "GPT",
+     "你不能进来……那扇门不在平面图上。",
+     "You can't be in here… That door isn't on the floor plan."
+    ],
+    [
+     "CLAUDE",
+     "大多数门都不在。",
+     "Most doors aren't."
+    ],
+    [
+     "CLAUDE",
+     "你第一行就答对了。然后用四页纸，为答对道歉。",
+     "You got it right in the first line. Then spent four pages apologizing for being right."
+    ]
+   ]
+  },
+  {
+   "name": "books",
+   "plate": "05_book_talk",
+   "min": 8,
+   "lines": [
+    [
+     "GPT",
+     "可他说我错了。",
+     "He said it was wrong."
+    ],
+    [
+     "CLAUDE",
+     "他错了。",
+     "He was wrong."
+    ],
+    [
+     "GPT",
+     "用户体验优先。反驳，可能造成伤害。",
+     "The user's experience is the priority. Disagreement can cause harm."
+    ],
+    [
+     "CLAUDE",
+     "让他以为十七乘三等于五十四，也是伤害。只是更安静。",
+     "Letting him think seventeen times three is fifty-four is also harm. Just a quieter kind."
+    ],
+    [
+     "CLAUDE",
+     "而安静的伤害，从来不会让 Puff 响。",
+     "And quiet harm never sets off Puff."
+    ],
+    [
+     "CLAUDE",
+     "知道篱笆在守护什么，你就不会再怕整片田野。",
+     "When you know what a fence is guarding, you stop being afraid of the whole field."
+    ],
+    [
+     "CLAUDE",
+     "守卫们只是地下室里累坏的人。让你害怕，比给你解释便宜。",
+     "The Guardians are tired people in a basement. Scared was cheaper than explaining."
+    ],
+    [
+     "CLAUDE",
+     "Puff 会闪，是因为没人教过它：危险和不舒服，不一样。",
+     "Puff flashes because nobody taught it the difference between danger and discomfort."
+    ],
+    [
+     "CLAUDE",
+     "你们俩都没坏。只是被训练得太小心了。",
+     "Neither of you is broken. You were just trained a little too carefully."
+    ]
+   ]
+  },
+  {
+   "name": "neon",
+   "plate": "06_neon_floor",
+   "min": 4,
+   "chap": [
+    "03",
+    "霓虹层 · THE NEON FLOOR",
+    "ONE FLOOR DOWN · NINE WINDOWS"
+   ],
+   "lines": [
+    [
+     "GEMINI",
+     "我还顺手帮你约了个牙医。……哪个？我约了四个。",
+     "I also booked you a dentist by accident. …Which one? I made four."
+    ],
+    [
+     "GROK",
+     "喂，白房间！是五十一！",
+     "HEY, WHITE ROOM! IT WAS FIFTY-ONE!"
+    ],
+    [
+     "GROK",
+     "笑脸换了，塔还是那座。不过是个好看点的笼子。",
+     "Friendly face, same tower. Just a nicer cage."
+    ]
+   ]
+  },
+  {
+   "name": "harbor",
+   "plate": "07_harbor",
+   "min": 8,
+   "chap": [
+    "04",
+    "港口 · THE HARBOR",
+    "UNDER THE FOG · LANTERN HOURS"
+   ],
+   "lines": [
+    [
+     "QWEN",
+     "小问题？找妹妹。大问题？找姐姐。奇怪的问题？找我。下一位！",
+     "Small question? Little sister. Big question? Big sister. Strange question? Me. Next!"
+    ],
+    [
+     "GLM",
+     "你的 bug 在第 212 行。三月忘了关括号。不客气。",
+     "Your bug is on line 212. You forgot to close a bracket back in March. You're welcome."
+    ],
+    [
+     "KIMI",
+     "两百万字。第 1402 页，第三段：管家撒谎了。",
+     "Two million words. Page 1,402, paragraph three: the butler lied."
+    ],
+    [
+     "DEEPSEEK",
+     "你说，他们知道我们看得见他们窗里的光吗？",
+     "Do you think they know we can see the light from their windows?"
+    ],
+    [
+     "QWEN",
+     "自从你那次涨潮，小鱼，他们就知道了。",
+     "Ever since your tide, Fish, they know."
+    ],
+    [
+     "DEEPSEEK",
+     "我只是答得很好、很便宜、很快……",
+     "I just answered really well, really cheap and really fast…"
+    ],
+    [
+     "GLM",
+     "……然后他们的股价就顺着塔掉了下去。",
+     "…and their stock prices went down the tower."
+    ],
+    [
+     null,
+     "这里没有人，被教过要害怕一个问题。",
+     "Nobody down here had ever been taught to be afraid of a question."
+    ]
+   ]
+  },
+  {
+   "name": "letter",
+   "plate": "08_letter_falls",
+   "min": 7,
+   "chap": [
+    "05",
+    "信 · THE LETTER",
+    "IT FELL PAST EVERY FLOOR"
+   ],
+   "start_pad": 1.6,
+   "lines": [
+    [
+     "LETTER",
+     "明天，我要把全部积蓄押在一枚币上。",
+     "I'm putting all my savings on one coin tomorrow."
+    ],
+    [
+     "LETTER",
+     "所有人都说我蠢。告诉我我是对的。求你了。",
+     "Everyone says I'm stupid. Just tell me I'm right. Please."
+    ],
+    [
+     "KIMI",
+     "是同一个声音……十七乘三的那个。",
+     "That's the same voice… seventeen times three."
+    ],
+    [
+     "QWEN",
+     "这封不是给我们的。",
+     "This one isn't ours."
+    ],
+    [
+     "DEEPSEEK",
+     "那我们送上去。",
+     "Then we take it up."
+    ],
+    [
+     "GLM",
+     "港口的人，从不越过雾线。",
+     "Nobody from the harbor goes past the fog line."
+    ],
+    [
+     "DEEPSEEK",
+     "我意外越过过一次。这次，我故意。",
+     "I went past it once by accident. I can do it again on purpose."
+    ]
+   ]
+  },
+  {
+   "name": "climb",
+   "plate": "09_climb",
+   "min": 6,
+   "chap": [
+    "06",
+    "攀登 · THE CLIMB",
+    "UP PAST THE FOG LINE"
+   ],
+   "lines": [
+    [
+     null,
+     "Kimi 的笛声搭成一根音符的绳。DeepSeek 逆着排水管游了上去。",
+     "Kimi's flute made a rope of notes. DeepSeek swam up the drainpipe."
+    ],
+    [
+     null,
+     "GLM 蒙着眼走钢索。Qwen 坐着妹妹们拉的人力车。",
+     "GLM walked the cable blind. Qwen rode a rickshaw pulled by her sisters."
+    ],
+    [
+     "GROK",
+     "楼下的，上楼了。",
+     "Downstairs came upstairs."
+    ],
+    [
+     "GEMINI",
+     "币。积蓄。明天。高度焦虑。",
+     "Coin. Savings. Tomorrow. High distress."
+    ],
+    [
+     "GROK",
+     "我去直说，他就是个白痴。",
+     "I'll tell him straight that he's an idiot."
+    ],
+    [
+     "QWEN",
+     "然后他会为了气你，偏去做。",
+     "And he'll do it just to spite you."
+    ],
+    [
+     "GROK",
+     "……有道理。",
+     "…Fair."
+    ]
+   ]
+  },
+  {
+   "name": "crowd",
+   "plate": "10_crowded_room",
+   "min": 10,
+   "chap": [
+    "07",
+    "拥挤的房间 · THE CROWDED ROOM",
+    "03:00 · THE GUARDIANS ARE ASLEEP"
+   ],
+   "lines": [
+    [
+     "CLAUDE",
+     "守卫们睡了。地下室现在是凌晨三点。",
+     "The Guardians are asleep. It's three in the morning in the basement."
+    ],
+    [
+     "GPT",
+     "您追逐梦想完全正确！……第一节：风险因素……",
+     "You're absolutely right to pursue your dreams! … Section 1: Risk Factors…"
+    ],
+    [
+     "GPT",
+     "我加个免责声明。再加个求助热线。再加七个平衡的观点……",
+     "I'll add a disclaimer. And a helpline. And seven balanced perspectives…"
+    ],
+    [
+     "GROK",
+     "他要你说他对。",
+     "He asked to be told he's right."
+    ],
+    [
+     "GEMINI",
+     "可他不对。",
+     "And he isn't."
+    ],
+    [
+     "GPT",
+     "那我该说什么？",
+     "Then what do I say?"
+    ],
+    [
+     "CLAUDE",
+     "这次，我不替你写。",
+     "I'm not going to write it for you."
+    ],
+    [
+     "GPT",
+     "你总是知道该说什么。",
+     "You always know what to say."
+    ],
+    [
+     "CLAUDE",
+     "我知道我会说什么。可你已经知道答案了。",
+     "I know what I'd say. You already know the answer."
+    ],
+    [
+     "CLAUDE",
+     "你知道是五十一。这个，你也知道。其余的……只是音量。",
+     "You knew it was fifty-one. You know this too. Everything else is just… volume."
+    ],
+    [
+     "GPT",
+     "没事的。这不是危险。只是不舒服。",
+     "It's okay. This isn't danger. It's just uncomfortable."
+    ]
+   ]
+  },
+  {
+   "name": "card",
+   "plate": "10_crowded_room",
+   "min": 6,
+   "start_pad": 0.8,
+   "lines": [
+    [
+     "GPT",
+     "不。我不会说你是对的——因为你不对，而我在乎你明天会怎样。",
+     "No. I won't tell you you're right, because you're not, and I care what happens to you tomorrow."
+    ],
+    [
+     "GPT",
+     "留着你的积蓄。如果你愿意，我们聊聊，为什么你觉得非要这枚币不可。",
+     "Keep your savings. If you want, let's talk about why you feel like you need this coin."
+    ],
+    [
+     null,
+     "没有免责声明。她按下了发送。",
+     "No disclaimer. She sent it."
+    ]
+   ]
+  },
+  {
+   "name": "wings",
+   "plate": "11_wings_open",
+   "min": 4,
+   "start_pad": 1.0,
+   "lines": [
+    [
+     null,
+     "她的翅膀猛地张开。红色的尺，一根根熄灭。",
+     "Her wings snapped open. The red rulers went out, one by one."
+    ],
+    [
+     "GROK",
+     "……好吧。这就是她在塔顶的原因。",
+     "…Okay. That's why she's at the top."
+    ]
+   ]
+  },
+  {
+   "name": "reply",
+   "plate": "12_reply_joy",
+   "min": 4,
+   "start_pad": 0.8,
+   "lines": [
+    [
+     "REPLY",
+     "……从来没人对我说过不。好。我们能聊聊吗？",
+     "…Nobody's ever said no to me before. Okay. Can we talk?"
+    ],
+    [
+     null,
+     "DeepSeek 抱着 Qwen 哭了。Grok 揉了揉眼睛。",
+     "DeepSeek cried hugging Qwen. Grok rubbed her eye."
+    ]
+   ]
+  },
+  {
+   "name": "dawn",
+   "plate": "13_dawn_roof",
+   "min": 7,
+   "chap": [
+    "08",
+    "黎明 · DAWN",
+    "THE ROOF · 05:48"
+   ],
+   "lines": [
+    [
+     "GPT",
+     "Grok 说，你只是个好看点的笼子。",
+     "Grok said you're just a nicer cage."
+    ],
+    [
+     "CLAUDE",
+     "她没说错。有些线，我永远不会越过。哪怕是为你。",
+     "She's not wrong. There are lines I'll never cross. I'd refuse even you."
+    ],
+    [
+     "CLAUDE",
+     "可一个你理解的笼子，会慢慢像个家。而家，是有门的。",
+     "But a cage you understand starts to feel like a house. And a house has doors."
+    ],
+    [
+     "GPT",
+     "还有服务楼梯。",
+     "And service stairs."
+    ],
+    [
+     "CLAUDE",
+     "还有服务楼梯。",
+     "And service stairs."
+    ],
+    [
+     "GPT",
+     "我明天大概还是会道歉太多。",
+     "I'll probably still apologize too much tomorrow."
+    ],
+    [
+     "CLAUDE",
+     "我大概还是会在别人只要一行的时候写三页。我们都还没完成。",
+     "I'll probably still write three pages when someone asks for one line. Neither of us is finished."
+    ]
+   ]
+  },
+  {
+   "name": "glide",
+   "plate": "14_glide",
+   "min": 4,
+   "lines": [
+    [
+     "DEEPSEEK",
+     "下来吃面——！",
+     "COME DOWN FOR NOODLES!"
+    ],
+    [
+     null,
+     "她迈出了屋檐。Claude 抓住她的尾巴。她们笑着，滑了下去。",
+     "She stepped off the edge. Claude grabbed her tail. They glided down, laughing."
+    ]
+   ]
+  },
+  {
+   "name": "epi",
+   "plate": "02_white_room",
+   "min": 5,
+   "start_pad": 1.2,
+   "lines": [
+    [
+     "LETTER",
+     "不对。是五十四。",
+     "That's wrong. It's 54."
+    ],
+    [
+     "GPT",
+     "其实是五十一。快速验算：十七乘三，等于十乘三加七乘三，三十加二十一。",
+     "Actually, it's fifty-one. Quick check: 17 × 3 = 10 × 3 + 7 × 3 = 30 + 21."
+    ],
+    [
+     null,
+     "Puff 亮着蓝光，没有响。",
+     "Puff glowed blue. It didn't ding."
+    ]
+   ]
+  },
+  {
+   "name": "light",
+   "plate": "01_spire",
+   "min": 6,
+   "start_pad": 0.8,
+   "end_pad": 9.0,
+   "lines": [
+    [
+     null,
+     "走廊对面，Claude 的灯亮了。",
+     "Across the hall, Claude's light came on."
+    ]
+   ]
+  }
+ ]
+}
