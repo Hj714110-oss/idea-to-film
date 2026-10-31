@@ -20,6 +20,7 @@ Proven on:
 - 《它记得我》 (fast-cut, chat UI)
 - 《正在输入… TYPING…》 (AI plates → image-to-video → code layer; scenes in `examples/typing/`)
 - 《总说「你说得对」的女孩》 (an ensemble fable; v1 stills-only on an original synthesised score, v2 image-to-video cut to a re-arranged borrowed beat; `examples/girl/`)
+- 《手绘的心智 · A Mind, Drawn by Hand》 (a brand-history knowledge film from a brand-asset archive; light paper engine, self-drawing vector illustrations, one dark POV chapter; `examples/drawn-by-hand/`)
 
 **Contract.** Input: an idea, plus optionally music, material (photos/footage/copy), a reference video. Output: a 1080p30 MP4 and a source zip.
 
@@ -67,6 +68,7 @@ Style systems that worked:
 | Warm-white product | gradient #F8F4EC→#E2ECEF + caustics | ink mode (LUT `255*exp(-v)`, `multiply`, darkened colours) | Noto Serif CJK Light, Jost EN caps, navy text |
 | Racing | #040506 + grey radial | additive white/ice/red + trails | Noto Sans CJK Bold, Barlow Condensed italic, red keywords |
 | Intimate / human-AI | #07060a + rose radial (cools at the turn) | rose / peach / AI cyan / lilac | dark glass chat UI, rose user bubbles, Fraunces + JetBrains Mono |
+| Paper / brand history | ivory #F0F0EB + paper-fibre texture (`multiply`); one dark chapter in slate #141413 | ink mode (splat `1-colour`, LUT `255*exp(-v)`, `multiply`), additive + bloom only in the dark chapter | the brand's own fonts; slate text with an ivory halo instead of a dark shadow; clay keywords |
 | AI plates (mode C) | the clips, cross-faded | sparse tinted dust only (additive particles vanish on bright plates; draw key marks as solid shapes) | white text with strong dark shadow; paper slips, ink reveals, toasts as diegetic overlays |
 
 ## 2. The 12-beat story (fits any idea)
@@ -106,13 +108,15 @@ Rules:
 - Place the title on the first big entry, the payoff on the last one, the quiet chapter on the low run of digits, the dip event on a dip, smash frames on off-grid accents.
 - Speech check for borrowed tracks: a `showspectrumpic` of 20 s. Formant stacks mean a voice-over; don't reuse.
 - Reference timings from two tracks we cut to (the music itself is not included):
-  - **Example track A**: 112.35 BPM, B0 0.076, bar 2.126 s; big entry bar 8 (17.1 s); quiet 77–94 s; dip 158–160 s; second climax bar 83 (177.4 s); 198.18 s.
+  - **Example track A**: ~112.9 BPM measured (beat 0.53152 s, bar 2.1261 s, B0 0.0765; the nominal 112.35 drifts ~0.85 s by bar 83); hits at bar 8 (17.09 s) and bar 44 (93.6 s); quiet bars 36–44 (77–94 s); dip 157.7–160.2 s; the last climax lands one beat after bar 83 (177.08 s → start the payoff at `bar(83) + BP`); 198.18 s.
   - **Example track B**: 129 BPM, bar 1.875 s; hits bar 8 / 40; accents 29.68 / 44.68 / 58.51 s; music ends ~113 s.
 - Mention licensing once when music comes from someone else's video. "[Free] … type beat" uploads usually allow non-commercial use with a producer credit: put the beat's full name in the credits.
 - **Getting the track**: you cannot download from music sites. iPhone users can't find app downloads in Files: ask for a screen recording (Control Center → long-press record, microphone off) and take the audio with `ffmpeg -i rec.mov -vn -ac 2 -ar 44100 src.wav`.
 - **Re-arranging a borrowed beat** to fit the story (`scripts/arrange.py`): map its sections first with band energy per bar (kick 35–130 Hz, hats > 5 kHz, mids) — a run of 1s in the kick row is a drumless intro/break. Then repeat or drop whole 8-bar phrases on bar lines (12 ms crossfades), e.g. repeat the last 8 bars of the break before the final drop so the drums fall away for the emotional beat and slam back on the payoff. Re-run `audio.py … --grid B0 BP` with the source grid.
 - **Half-time trap/hip-hop**: librosa reports ~160 BPM for an 80 BPM groove; use its 4-beat bar (1.49 s) as the cut unit — it feels right.
 - **Kick-reactive frames**: `audio.py` writes a 30 fps `kick` envelope; the compositor punches the frame (+1.6 %) and splits colour on strong kicks automatically.
+- **Always build on the measured grid** of the actual file (`audio.py`), never a nominal BPM, and check each big hit with an onset peak: a hit can sit a beat off the bar line.
+- **The user names an earlier film's track you can't reach** (it lived in another session): say so, ask for the file or that film's MP4, and keep building on the remembered grid meanwhile; the swap is then a re-render, not a re-edit.
 - **No track at all and the user wants it finished now**: compose one in numpy (bells, plucks, pads, strings, flute, drums, a convolution reverb; one section per scene; the motif as two notes). `examples/girl/score_v1.py` is a complete 92 BPM score written from a timeline.
 
 ## 4. Production by mode
@@ -226,7 +230,18 @@ cp scenes.example.js scenes.js && python3 audio.py /path/music .
 - phone outline, CRT box, seesaw, chat-window slab with z-stacked layers
 - three bouncing dots forming a title's “…”
 
-The engine is dark-mode additive; for a light film switch the LUT to `255*exp(-v)` and composite with `multiply`.
+The engine is dark-mode additive; for a light film switch the LUT to `255*exp(-v)` and composite with `multiply`. `examples/drawn-by-hand/` has a complete light/dark edition:
+- **Per-scene `dark`** (0, 1 or a function of t). Switch modes only on a `hard: true` cut under a flash or a smash frame.
+- **Subtitles and chapter labels re-colour themselves**: slate with an ivory halo on paper, ivory with a dark shadow on slate. `chapCol` overrides the chapter number (e.g. ivory on a clay background).
+- **`inkDraw(name, x, y, size, p)`** draws a filled-outline vector illustration stroke by stroke: a thick dashed stroke along each outline masks the fill, a nib glows at the pen point, and the pale fills wash in at the end.
+- **`handLine(points, p, w, colour)`** draws a wobbly hand-drawn line with a nib.
+
+**Brand-archive films** (mode B from an asset dump):
+- Key out flat-colour illustration backgrounds: alpha from the distance to the median edge colour, un-premultiplied (`prep_material.py`).
+- Sort dated covers into a depth tunnel with a year counter.
+- Turn the palette into physical cards with scrambled hex codes.
+- Strike through the cliché the brand rejected (here, blue AI glow) with the motif line.
+- Leave out photos of identifiable staff, and credit the material as an unofficial tribute.
 
 ## 6. Review, render, QA
 - `node stills.js st t1 t2 ...` → tile with PIL → Read. Check every scene mid-point and boundary.
@@ -250,6 +265,8 @@ The engine is dark-mode additive; for a light film switch the LUT to `255*exp(-v
 - Don't state counts or claims you can't support; label correlational studies as correlation.
 - Sensitive themes: honest endings, no preaching, no dependency-fostering lines.
 - Scenes share one global scope with the engine: names like `PH`, `BB`, `WH`, `BR`, `N`, `D`, `Q` are taken (a clash shows as `Identifier … has already been declared` and `SC is not defined`). Prefix your constants.
+- `mk()` owns the scene properties `P C V B S bP bC bB bS`: store your own data under other names (`this.S = stars` breaks `copyBase`).
+- `globalCompositeOperation = 'source-in'` keeps only the **last** shape when you fill several: combine the paths into one `Path2D` with `addPath` and fill once.
 - `T()` restores the previous `globalAlpha`, so text inside a fading card fades with it.
 - Bright plates + additive flash wash out on big hits: dim that clip (`filt: brightness(.82)`) or tint the flash darker.
 - Additive glows sized from plate units explode on a close camera (viewW .3 → 2× scale): size them for the closest framing.
@@ -490,4 +507,5 @@ How to translate to film:
 | `upscale.py` | Real-ESRGAN ×4 without torch (download `realesr-general-x4v3.pth` into `models/`). |
 
 `examples/typing/` holds the scenes and video prompts of 《正在输入… TYPING…》 as a full worked example (plates, clips and music are not included).
+`examples/drawn-by-hand/` holds 《手绘的心智》: the ivory/ink engine edition, scenes, `prep_material.py` and the stand-in score.
 `examples/girl/` holds both versions of 《总说「你说得对」的女孩》: the stills-only cut with its script and synthesised score, and the image-to-video cut on a re-arranged beat, with its video prompts.

@@ -66,6 +66,26 @@ Both versions are in [`examples/girl/`](examples/girl/):
 - **v1:** a stills-only cut with an original synthesised score.
 - **v2:** image-to-video clips on the re-arranged beat.
 
+## Made with it: 《手绘的心智 · A Mind, Drawn by Hand》
+
+A 3:18 knowledge film about how Anthropic's and Claude's design language took shape (an unofficial tribute). Everyone draws AI as a blue future; Anthropic drew a hand on paper. One hand-drawn line is the motif: it slashes through a glowing AI head, becomes the "\\" in the title, links the timeline's nodes, and in the finale draws the answer. It runs on a light paper version of the engine: ink particles multiplied onto ivory, vector illustrations that draw themselves stroke by stroke, and one dark chapter where Claude speaks.
+一部讲 Anthropic / Claude 设计语言如何形成的知识短片：所有人把 AI 画成蓝色的未来，Anthropic 画了一只手。一条手绘线贯穿全片。
+
+<p align="center"><img src="assets/hand/hero.jpg" alt="手绘的心智 · A MIND / DRAWN BY HAND" width="100%"></p>
+<p align="center"><img src="assets/hand/hook.gif" alt="The hook: 画一个 AI → a glowing blue particle head → a hand-drawn slash" width="480"></p>
+<p align="center"><sub>The hook: 「画一个 AI。」 builds the blue-future cliché, then a hand-drawn stroke cuts through it (2.2× speed).</sub></p>
+
+| | | |
+|:-:|:-:|:-:|
+| <img src="assets/hand/01.jpg" alt="The slash"> | <img src="assets/hand/02.jpg" alt="Palette"> | <img src="assets/hand/03.jpg" alt="Type"> |
+| Hook · the blue future, struck through | 01 纸 · blue survives only as Focus | 01 纸 · Hello / World |
+| <img src="assets/hand/04.jpg" alt="Nodes"> | <img src="assets/hand/05.jpg" alt="Why hands"> | <img src="assets/hand/06.jpg" alt="Constellation"> |
+| 03 节点 · icons draw themselves | 04 · the quiet chapter | 07 我 · 342 files as a constellation |
+| <img src="assets/hand/07.jpg" alt="Claude draws"> | <img src="assets/hand/08.jpg" alt="The answer"> | <img src="assets/hand/09.jpg" alt="Title"> |
+| Build · Claude draws, faster and faster | Payoff · the answer is a hand | 手绘的心智 |
+
+Scenes, the ivory/ink engine, the material-prep script and the stand-in score are in [`examples/drawn-by-hand/`](examples/drawn-by-hand/). The archive images, brand fonts and music are not included.
+
 ## Repository layout
 
 ```
@@ -81,9 +101,10 @@ scripts/
   arrange.py             re-arrange a beat on bar lines to fit the story
   timeline.py            script.json -> scene bars + subtitle windows sized by reading speed
   upscale.py             Real-ESRGAN x4 for start frames (weights not bundled)
-assets/                  README images (frames from the two films)
+assets/                  README images (frames from the films)
 examples/typing/         full worked example: 《正在输入… TYPING…》 (concept, video prompts, scenes.js)
 examples/girl/           《总说「你说得对」的女孩》: stills-only v1 + image-to-video v2 (script, score, prompts, scenes)
+examples/drawn-by-hand/  《手绘的心智》: light paper engine (ink particles, self-drawing SVGs), scenes, material prep, stand-in score
 ```
 
 ## Install
