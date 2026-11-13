@@ -38,3 +38,5 @@ SOFTWARE.
 | librosa | beat tracking | ISC |
 | FFmpeg | encoding / frame extraction | LGPL-2.1+ / GPL depending on build |
 | OpenCV, NumPy, Pillow | image processing | Apache-2.0 / BSD-3-Clause / MIT-CMU |
+| three.js | the 3D world in `examples/frozen-moment/` (installed from npm, not bundled) | MIT, © three.js authors |
+| Inter, Noto Sans CJK | typography in `examples/frozen-moment/` (system fonts, not bundled) | SIL Open Font License 1.1 |

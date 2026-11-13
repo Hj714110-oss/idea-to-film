@@ -21,6 +21,7 @@ Proven on:
 - 《正在输入… TYPING…》 (AI plates → image-to-video → code layer; scenes in `examples/typing/`)
 - 《总说「你说得对」的女孩》 (an ensemble fable; v1 stills-only on an original synthesised score, v2 image-to-video cut to a re-arranged borrowed beat; `examples/girl/`)
 - 《手绘的心智 · A Mind, Drawn by Hand》 (a brand-history knowledge film from a brand-asset archive; light paper engine, self-drawing vector illustrations, one dark POV chapter; `examples/drawn-by-hand/`)
+- 《0.01》 (a racing-goggles launch film: a frozen-moment 3D one-take with the real product keyed out of its CG footage; `examples/frozen-moment/`)
 
 **Contract.** Input: an idea, plus optionally music, material (photos/footage/copy), a reference video. Output: a 1080p30 MP4 and a source zip.
 
@@ -46,6 +47,7 @@ Never preach; take the subject seriously on its own terms (a romance with an AI 
 2. Run `audio.py` on the music.
 3. Decide the dials (§1) and write the 12-beat story (§2). Name every move from the motion lexicon (Appendix A): each scene's entrance, transition, text effect and camera move gets its lexicon term.
    - Mode C: publish a concept doc with the plate prompts, review the user's images, hand back upscaled start frames + `VIDEO_PROMPTS.md`, then review their clips.
+   - Mode D: write the one-sentence premise (the instant that freezes), the key times on the bar grid and the camera path first; key the footage; then build the world.
 4. Build scenes on the bundled engine (§5, files in `scripts/`).
 5. Review stills of every scene and boundary; fix.
 6. Render on 2–3 workers, mux, QA frames from the final file, deliver MP4 + source zip.
@@ -54,7 +56,7 @@ Never preach; take the subject seriously on its own terms (a romance with an AI 
 | Dial | Rule |
 |---|---|
 | **Pacing** | From the track tempo. **< 120 BPM → chapter grammar**: 8-bar chapters (~17 s), 1.1 s cross-fades + light leaks, 2.5–3.5 min. **≥ 120 BPM → fast grammar**: mixed 4/8-bar scenes, single-frame smash cuts, ~1:50–2:00. Both: hook within 0.2 s, a micro-event every 1–2 beats, big hits = flash + burst + shake. |
-| **Visual mode** | **C-stills** when the user hands you finished paintings but no clips yet: upscale the plates to 3072×2048 and move a code camera inside them (`plate()` in `kit.js`), so the film exists today; offer the image-to-video pass as the upgrade (it looks markedly better). **B** when the user gave material (product photos, footage, copy): cutouts, clips, particles. **C** (default for stories, people, places, eras, emotions, when the user has an image model and an image-to-video model, e.g. gpt-image-2 + MiniMax Hailuo / Kling / Veo / Seedance): one AI-generated art style per chapter, animated by image-to-video, code layer on top. **A** for abstract, data or concept ideas, or when they want it with no generation: pure particles and code. Mix freely (e.g. a C film with an A particle chapter for the inner-world beat). |
+| **Visual mode** | **C-stills** when the user hands you finished paintings but no clips yet: upscale the plates to 3072×2048 and move a code camera inside them (`plate()` in `kit.js`), so the film exists today; offer the image-to-video pass as the upgrade (it looks markedly better). **B** when the user gave material (product photos, footage, copy): cutouts, clips, particles. **C** (default for stories, people, places, eras, emotions, when the user has an image model and an image-to-video model, e.g. gpt-image-2 + MiniMax Hailuo / Kling / Veo / Seedance): one AI-generated art style per chapter, animated by image-to-video, code layer on top. **A** for abstract, data or concept ideas, or when they want it with no generation: pure particles and code. Mix freely (e.g. a C film with an A particle chapter for the inner-world beat). **D** when a product or brand film has to stun, or the user calls a cut "plain" / "like slides": one 3D world, one continuous camera, the story told inside a single frozen instant, with the real product keyed out of its footage (§4 D). |
 | **Art styles (C)** | A different painting tradition per chapter that carries its meaning (eras: cave pigment, Persian miniature, ink wash, Bauhaus poster, ukiyo-e; feelings: woodblock rain, Victorian candlelight, Qixi ink, 1940s American realism, picture-book gouache, surreal library). Open and close on the same photographic shot. |
 | **Look** | See the style table below. |
 | **Voices** | One narrator (warm serif subs). Add a second voice when the point of view switches (light sans + cyan glow, mono EN, cyan chapter number and light leaks). |
@@ -176,6 +178,17 @@ Rules:
 - Map scene starts to bars.
 - Then fold what works into the dials — never as a separate version.
 
+**D — 3D world, one take (the frozen moment).**
+Use when a clean edit is correct but plain. A deck-like film (headline one side, object the other, fade, repeat) is fixed by structure, not by more effects: one world, one camera, one premise.
+1. **Premise**: find the decisive instant of the subject and stop time inside it (a race 0.01 s before the wall; a drop before it lands; a shutter mid-click). Give it a number the audience can watch: a clock that stays red at the frozen value, and a progress ruler that spans only that instant (23.900 → 23.910 s).
+2. **Arc on the music** (shorten the track on bar lines with `arrange.py` first): quiet intro = first person, time running → first drum entry = the freeze (flash, giant number, splash stops) → verse/chorus = one discovery per 2 or 4 bars, each a camera move to something found in the frozen world → breakdown = the held breath (wide shot, one line) → last chorus = time restarts, the payoff, then giant product shots one per bar → outro = lock-up.
+3. **The product is real footage.** CG clips on pure black key cleanly: `matte.py` (threshold, fill small holes, drop specks, feather) writes one matte per frame; a camera-facing billboard samples colour + matte. Scrub the clip's own frames with the camera orbit so it reads as 3D. Macro billboards must be larger than the screen with the footage's frame edges off-screen. A dark macro goes in a round loupe. Reflections are flipped copies drawn over the water at low alpha.
+4. **World** (three.js, real metres): a water plane whose shader refracts to a procedural floor (lane lines, tiles, caustics), reflects a bright sky by Fresnel, and carries splash and rain rings; fade wave octaves, floor lines and caustics with distance. Droplets are instanced spheres on ballistic paths driven by a splash age `tau`; freezing is a time warp (`tau` runs, then creeps), not a stop, so the world stays alive. Droplet shader: world refracted upside-down, dark rim, hard sun highlight.
+5. **Camera**: one list of keys `(t, position, look-at, fov, roll)` on bar lines, non-uniform Catmull-Rom, tension 0.7, tangents zeroed wherever two neighbouring keys are equal. Whip on the bar line, settle, drift. For a 180° turn swing the look-target out sideways; never let it pass through the camera. The only cut hides inside a full-white flash.
+6. **Through the lens**: a 2D mask of the lens opening with a soft dark gasket turns any shot into first person; use it for the hook, for demonstrations that happen *to the viewer* (fog clearing), and to re-enter the body before time restarts.
+7. **Type** stays 2D on top: heavy grotesk + Chinese line, per-letter blur-rise, a white glow plate behind for legibility on a moving bright world; labels typed in mono.
+The full direction and world are in `examples/frozen-moment/`.
+
 ## 5. Build on the bundled engine
 Files (in `scripts/`):
 - `film.html`
@@ -270,6 +283,9 @@ The engine is dark-mode additive; for a light film switch the LUT to `255*exp(-v
 - `T()` restores the previous `globalAlpha`, so text inside a fading card fades with it.
 - Bright plates + additive flash wash out on big hits: dim that clip (`filt: brightness(.82)`) or tint the flash darker.
 - Additive glows sized from plate units explode on a close camera (viewW .3 → 2× scale): size them for the closest framing.
+- Mode D: swapping a WebGL 2 texture's image for one of another size shows the old picture; `dispose()` the texture first.
+- Mode D: on software GL expect ~1.5 s per 1080p frame per worker; a local `http.server` and background renders can die between turns, so restart the server and wait for the render inside one turn.
+- Mode D: Catmull-Rom anticipates: before a hold the camera drifts backwards unless the tangent is zeroed; distant, fine patterns (waves, tiles, lane lines) alias unless faded with distance.
 
 ## 8. Hand-off
 - One line on what the film is and its length/size.
@@ -509,3 +525,4 @@ How to translate to film:
 `examples/typing/` holds the scenes and video prompts of 《正在输入… TYPING…》 as a full worked example (plates, clips and music are not included).
 `examples/drawn-by-hand/` holds 《手绘的心智》: the ivory/ink engine edition, scenes, `prep_material.py` and the stand-in score.
 `examples/girl/` holds both versions of 《总说「你说得对」的女孩》: the stills-only cut with its script and synthesised score, and the image-to-video cut on a re-arranged beat, with its video prompts.
+`examples/frozen-moment/` holds 《0.01》, the Mode D film: the three.js pool world, the direction file, and `matte.py` (footage, photos, logos and music are not included).
