@@ -125,6 +125,22 @@ A 3:18 knowledge film about how Anthropic's and Claude's design language took sh
 
 The scenes, the ivory/ink engine, the material-prep script and the stand-in score are in [`examples/drawn-by-hand/`](examples/drawn-by-hand/). The archive images, brand fonts and music are not included.
 
+### 《0.01》
+
+A 1:45 launch film for a pair of racing goggles, made after a first, slide-style cut came back as "a bit plain". The whole film happens inside one hundredth of a second. You swim the last 15 metres through the lens, time stops at 23.90, and one unbroken camera flies through the frozen splash: it finds the curved lens, three lens layers slamming into one, fog clearing from the inside, and a tunnel of 43 colourways. Then time restarts and the hand touches the wall at 23.91. The goggles are the real product, cut out of their CG footage and hung in a three.js pool. The clock stays red at 23.90 for the whole tour.
+
+一支 1 分 45 秒的泳镜发布片：整部片子发生在 0.01 秒里。时间停在 23.90，一个不剪断的镜头穿过凝固的水花；最后时间恢复，触壁，23.91。
+
+| Bars (105 BPM) | Music | Shot |
+|:--|:--|:--|
+| 0–4 | intro, no drums | First person through the lens, race clock running |
+| 4 | drums in | Freeze: the splash stops, the camera leaves through the lens and finds the goggles |
+| 8–28 | verse + chorus | One discovery every 2–4 bars: lens, cushion, mirror layer, anti-fog, colourways, adjusters, spec |
+| 28–32 | breakdown | The held breath: 「还差 0.01 秒。」 |
+| 32–46 | last chorus | Time restarts, touch, giant product macros, lock-up |
+
+The pool world, the direction file and the matte script are in [`examples/frozen-moment/`](examples/frozen-moment/) (Mode D). Brand names are replaced by placeholders, and no frames are shown here: the footage, logos and music belong to the brand and are not included.
+
 ## Quick start
 
 **1. Install it as a Claude skill** (it works with any agent that reads `SKILL.md`):
@@ -150,6 +166,7 @@ That's it. The agent states its reading in one line, writes the story, builds th
 npm i playwright @fontsource/fraunces @fontsource/jetbrains-mono
 npx playwright install chromium
 pip install librosa opencv-python pillow numpy
+# Mode D only: npm i three  (copy build/three.module.js and build/three.core.js next to film.js)
 # Mode C only (optional): pip install onnx onnxruntime  + Real-ESRGAN weights
 #   download realesr-general-x4v3.pth from the Real-ESRGAN releases into scripts/models/
 #   or set ESRGAN_PTH=/path/to/realesr-general-x4v3.pth
@@ -182,7 +199,7 @@ flowchart LR
   M[Music track] --> G[Beat grid<br/>audio.py]
   S --> B[Scenes on the beat<br/>engine + kit]
   G --> B
-  V[Visual mode<br/>A · B · C] --> B
+  V[Visual mode<br/>A · B · C · D] --> B
   B --> R[Review stills<br/>and fix]
   R --> O[Render<br/>Playwright → ffmpeg]
   O --> F[1080p30 MP4<br/>+ source zip]
@@ -199,12 +216,13 @@ flowchart LR
    | **B · footage + code** | you bring photos, footage or copy | your material under a code overlay |
    | **C · AI plates + image-to-video** | stories, people, places, eras, emotions | it writes the image and motion prompts, you run your models, it crops, upscales, slows, blends and composites the overlay |
    | **C-stills** | finished paintings, no clips yet | it moves a camera inside the stills so the film exists today; image-to-video is the upgrade |
+   | **D · 3D world, one take** | a product film that has to stun, or a cut that feels like slides | a three.js world, one continuous camera, the story told inside a single frozen instant, the real product keyed out of its footage |
 
 5. **It renders deterministically** (seeded randomness: the same scenes and audio give the same film), then grabs frames from the final file at every cut, hit and dip, looks at them, and fixes what it sees.
 
 Its motion vocabulary is a 178-term film-relevant subset of the [motion-lexicon](https://github.com/pursuerlin/motion-lexicon) (MIT), including 46 compound recipes with code. Every entrance, transition, text effect and camera move in a film is named from it (see *Appendix A* in `SKILL.md`).
 
-Beyond the three films above, the skill has cut a making-of tutorial, a swimwear brand film, a racing-goggles launch film and two shorter story films, 《焦虑》 and 《它记得我》.
+Beyond the films above, the skill has cut a making-of tutorial, a swimwear brand film, an earlier racing-goggles launch film and two shorter story films, 《焦虑》 and 《它记得我》.
 
 ## Good to know
 
@@ -233,6 +251,7 @@ assets/                  README images (frames from the films)
 examples/typing/         《正在输入… TYPING…》: concept, video prompts, scenes.js
 examples/girl/           《总说「你说得对」的女孩》: stills-only v1 + image-to-video v2 (script, score, prompts, scenes)
 examples/drawn-by-hand/  《手绘的心智》: light paper engine (ink particles, self-drawing SVGs), scenes, material prep, stand-in score
+examples/frozen-moment/  《0.01》: Mode D, a 3D one-take inside a frozen instant (three.js pool world, direction, matte script)
 ```
 
 </details>
